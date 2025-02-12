@@ -10,7 +10,7 @@
         
         {% if messages %}
         <!-- Display any messages (success or error) -->
-        <div class="alert-container">
+        <div class="alert alert-danger">
             {% for message in messages %}
             <div class="alert {{ message.tags }} text-center" role="alert">
                 {{ message }}
@@ -33,4 +33,4 @@
         </form>
     </div>
 </div>
-{% endblock %}
+{% endblock %}
