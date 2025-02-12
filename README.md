@@ -7,28 +7,36 @@ This is a Django web application that enables users to upload DICOM files and ex
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository_url>
-cd <project_directory>
+git clone https://github.com/Kriti311/dicom-metada.git
+cd dicom-metada
 ```
 
-### 2. Install Dependencies
+### 2. Create and Activate a Virtual Environment:
+```bash
+python -m venv venv
+source venv/bin/activate   # For Linux/macOS
+venv\Scripts\activate      # For Windows
+```
+
+
+### 3. Install Dependencies
 Ensure you have Python installed, then install the required dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Run Database Migrations
+### 4. Run Database Migrations
 Apply migrations to set up the database schema:
 ```bash
 python manage.py makemigrations
 python manage.py 
 ```
-### 4. Start the Development Server
+### 5. Start the Development Server
 Start the Django development server to run the application locally:
 ```bash
 python manage.py runserver
 ```
 
-### 5. Access the Application
+### 6. Access the Application
 Open your web browser and go to: http://127.0.0.1:8000
 
