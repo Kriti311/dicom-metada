@@ -1,0 +1,49 @@
+{% extends 'base_auth.html' %}
+
+{% block title %}
+{% if is_login %}Login{% else %}Register{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    {% if messages %}
+  <div class="alert alert-danger">
+    {% for message in messages %}
+      <p>{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
+
+    <h2 class="text-center text-custom">
+        {% if is_login %}Login{% else %}Register{% endif %}
+    </h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+        {% if not is_login %}
+        <div class="mb-3">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" name="password2" class="form-control" required>
+        </div>
+        {% endif %}
+        <button type="submit" class="btn btn-custom w-100">
+            {% if is_login %}Login{% else %}Sign Up{% endif %}
+        </button>
+    </form>
+    <p class="text-center mt-3 register-link">
+        {% if is_login %}
+        Don't have an account? <a href="{% url 'register' %}" class="text-custom">Register here</a>
+        {% else %}
+        Already have an account? <a href="{% url 'login' %}" class="text-custom">Login here</a>
+        {% endif %}
+    </p>
+</div>
+{% endblock %}

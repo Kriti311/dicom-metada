@@ -1,0 +1,92 @@
+
+<style>
+    .custom-search input:focus {
+        box-shadow: none !important; 
+        border-color:rgb(41, 144, 234) !important; 
+    }
+</style>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dicom-list">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>DICOM Files</h2>
+        <a href="{% url 'dicom:upload' %}" class="btn btn-primary">Upload New DICOM</a>
+    </div>
+
+    <!-- Search Bar -->
+    <form method="GET" action="{% url 'dicom:list' %}" class="mb-3">
+        <div class="input-group custom-search" style="max-width: 250px;">
+            <input type="text" name="q" value="{{ query|default:'' }}" 
+                   class="form-control form-control-sm" 
+                   placeholder="Search..." 
+                   style="font-size: 14px; border-width: 1px;">
+            <button type="submit" class="btn btn-sm btn-outline-primary">🔍</button>
+        </div>
+    </form>
+    
+
+    {% if dicom_files %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Patient ID</th>
+                <th>Patient Name</th>
+                <th>Study Date</th>
+                <th>Modality</th>
+                <th>Upload Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dicom in dicom_files %}
+            <tr>
+                <td>{{ dicom.patient_id }}</td>
+                <td>{{ dicom.patient_name }}</td>
+                <td>{{ dicom.study_date }}</td>
+                <td>{{ dicom.modality }}</td>
+                <td>{{ dicom.upload_date }}</td>
+                
+                <td>
+                    <a href="{% url 'dicom:detail' dicom.pk %}" class="btn btn-sm btn-info">View</a>
+                    <a href="{% url 'dicom:delete' dicom.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<!-- Pagination -->
+<nav>
+    <ul class="pagination justify-content-center">
+        {% if dicom_files.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?{% if query %}q={{ query }}&{% endif %}page=1">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?{% if query %}q={{ query }}&{% endif %}page={{ dicom_files.previous_page_number }}">Previous</a>
+            </li>
+        {% endif %}
+
+        <li class="page-item disabled">
+            <span class="page-link">Page {{ dicom_files.number }} of {{ dicom_files.paginator.num_pages }}</span>
+        </li>
+
+        {% if dicom_files.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?{% if query %}q={{ query }}&{% endif %}page={{ dicom_files.next_page_number }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?{% if query %}q={{ query }}&{% endif %}page={{ dicom_files.paginator.num_pages }}">Last</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+    {% else %}
+    <div class="text-center mt-5">
+        <p>No DICOM files found.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

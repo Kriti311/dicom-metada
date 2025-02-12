@@ -1,0 +1,36 @@
+<!-- templates/dicom/upload.html -->
+{% extends 'base.html' %}
+
+{% block title %}Upload DICOM File{% endblock %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow-lg p-4" style="max-width: 500px; width: 100%;">
+        <h2 class="text-center mb-4 text-primary">Upload DICOM File</h2>
+        
+        {% if messages %}
+        <!-- Display any messages (success or error) -->
+        <div class="alert-container">
+            {% for message in messages %}
+            <div class="alert {{ message.tags }} text-center" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <!-- Form to upload the DICOM file -->
+        <form id="upload-form" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_file" class="form-label">Choose DICOM File</label>
+                {{ form.file }}
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary btn-sm w-50">Upload</button>
+                <a href="{% url 'dicom:list' %}" class="btn btn-secondary btn-sm w-50">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
